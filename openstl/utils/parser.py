@@ -41,6 +41,7 @@ def create_parser():
     parser.add_argument('--launcher', default='none', type=str,
                         choices=['none', 'pytorch', 'slurm', 'mpi'],
                         help='job launcher for distributed training')
+    parser.add_argument('--num_nodes', type=int, default=1)
     parser.add_argument('--local_rank', type=int, default=0)
     parser.add_argument('--port', type=int, default=29500,
                         help='port only works when launcher=="slurm"')
@@ -119,6 +120,15 @@ def create_parser():
                         help='LR decay rate (default: 0.1)')
     parser.add_argument('--filter_bias_and_bn', type=bool, default=False,
                         help='Whether to set the weight decay of bias and bn to 0')
+    
+    # pytorch lightning
+    ## wandb
+    parser.add_argument('--project', default='Default Project', type=str)
+    parser.add_argument('--offline', action='store_false')
+    parser.add_argument('--entity', default='Default Entity', type=str)
+    ## trainer
+    parser.add_argument('--gpus', nargs='+', default=[0], type=int)
+    parser.add_argument('--metric_for_bestckpt', default='val_loss', type=str)
 
     return parser
 
