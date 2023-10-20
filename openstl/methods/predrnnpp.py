@@ -1,10 +1,10 @@
 import torch.nn as nn
 
 from openstl.models import PredRNNpp_Model
-from .predrnn import PredRNN
+from .base_plmethod import Base_plmethod
 
 
-class PredRNNpp(PredRNN):
+class PredRNNpp(Base_plmethod):
     r"""PredRNN++
 
     Implementation of `PredRNN++: Towards A Resolution of the Deep-in-Time Dilemma
@@ -12,11 +12,12 @@ class PredRNNpp(PredRNN):
 
     """
 
-    def __init__(self, args, device, steps_per_epoch):
-        PredRNN.__init__(self, args, device, steps_per_epoch)
-        self.model = self._build_model(self.args)
-        self.model_optim, self.scheduler, self.by_epoch = self._init_optimizer(steps_per_epoch)
+    def __init__(self, **config):
+        super().__init__(**config)
+        self.model = self._build_model(self.hparams)
         self.criterion = nn.MSELoss()
+        self.configure_loss(self.criterion)
+
 
     def _build_model(self, args):
         num_hidden = [int(x) for x in self.args.num_hidden.split(',')]

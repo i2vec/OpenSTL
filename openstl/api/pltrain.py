@@ -74,8 +74,9 @@ class PLBaseExperiment:
             self.valid_loader = self.test_loader
             
     def _build_method(self):
-        self.steps_per_epoch = len(self.train_loader)
-        self.method = method_maps[self.args.method](steps_per_epoch=self.steps_per_epoch, **self.config)
+        self.args.steps_per_epoch = len(self.train_loader)
+        self.config['steps_per_epoch'] = len(self.train_loader)
+        self.method = method_maps[self.args.method](**self.config)
         
     def load_callbacks(self, args):
         callbacks = []
@@ -91,7 +92,7 @@ class PLBaseExperiment:
             monitor=metric,
             filename=sv_filename,
             save_top_k=15,
-            mode='max',
+            mode='min',
             save_last=True,
             dirpath = ckptdir,
             verbose = True,

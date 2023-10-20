@@ -128,7 +128,7 @@ def create_parser():
     parser.add_argument('--entity', default='Default Entity', type=str)
     ## trainer
     parser.add_argument('--gpus', nargs='+', default=[0], type=int)
-    parser.add_argument('--metric_for_bestckpt', default='val_loss', type=str)
+    parser.add_argument('--metric_for_bestckpt', default='mse', type=str)
 
     return parser
 

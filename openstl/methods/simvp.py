@@ -16,15 +16,15 @@ class SimVP(Base_plmethod):
 
     """
 
-    def __init__(self, **args):
-        super().__init__(**args)
-        self.model = self._build_model(**args)
+    def __init__(self, **config):
+        super().__init__(**config)
+        self.model = self._build_model(**config)
         self.criterion = nn.MSELoss()
         self.configure_loss(self.criterion)
         
 
     def _build_model(self, **args):
-        return SimVP_Model(**args).to(self.device)
+        return SimVP_Model(**args)
 
     def _predict(self, batch_x, batch_y=None, **kwargs):
         """Forward the model"""
